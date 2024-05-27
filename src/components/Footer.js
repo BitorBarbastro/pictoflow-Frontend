@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const fadeIn = keyframes`
   from {
@@ -25,7 +26,8 @@ const FooterBase = ({ isExpanded, className, children, onMouseEnter, onMouseLeav
     {children}
   </footer>
 );
-
+const body = document.body;
+body.style.transition = 'height 0.3s ease'; // Añade una transición suave al tamaño del body
 const FooterContainer = styled(FooterBase)`
   background-color: #f8f9fa;
   padding: 20px 0;
@@ -34,10 +36,11 @@ const FooterContainer = styled(FooterBase)`
   align-items: center;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
-  transition: height 0.3s ease;
+  transition: height 0.3s ease, opacity 0.3s ease; /* Añadido transition para la animación */
   height: ${({ isExpanded }) => (isExpanded ? '200px' : '60px')};
   overflow: hidden;
-  position: relative; // Cambiado de 'fixed' a 'relative'
+  position: fixed; /* Asegura que el footer esté en la parte inferior */
+  bottom: 0;
 `;
 
 const Logo = styled.div`
@@ -47,7 +50,7 @@ const Logo = styled.div`
   cursor: pointer;
 `;
 
-const LinksBase = ({ isExpanded, className, children }) => (
+const LinksBase = ({ className, children }) => (
   <div className={className}>
     {children}
   </div>
@@ -74,7 +77,7 @@ const LinkTitle = styled.div`
   margin-bottom: 10px;
 `;
 
-const Link = styled.a`
+const Link = styled(RouterLink)`
   color: black;
   text-decoration: none;
   margin-bottom: 5px;
@@ -90,7 +93,29 @@ const Footer = () => {
 
   const handleMouseEnter = () => setIsExpanded(true);
   const handleMouseLeave = () => setIsExpanded(false);
+
   const handleLogoClick = () => navigate('/hero');
+
+  useEffect(() => {
+    const footerHeight = isExpanded ? 200 : 60; // Altura del footer expandido y contraído
+    const bodyHeight = body.scrollHeight + footerHeight - 60; // Ajusta el tamaño del body
+  
+    if (isExpanded) {
+      body.style.height = `${bodyHeight}px`;
+      window.scrollTo({
+        top: body.scrollHeight,
+        behavior: 'auto' // Cambia a 'auto' para un scroll instantáneo
+      });
+    } else {
+      body.style.height = `${body.scrollHeight - (200 - 60)}px`; // Restaura el tamaño original del body
+      setTimeout(() => {
+        window.scrollTo({
+          top: body.scrollHeight - footerHeight + 60,
+          behavior: 'smooth' // Cambia a 'smooth' para una animación suave
+        });
+      }, 0);
+    }
+  }, [isExpanded]);
 
   return (
     <FooterContainer
@@ -102,25 +127,26 @@ const Footer = () => {
       <LinksContainer isExpanded={isExpanded}>
         <LinkColumn>
           <LinkTitle>Acceso Rápido</LinkTitle>
-          <Link href="#">Perfil</Link>
-          <Link href="#">Administrar Galerias</Link>
-          <Link href="#">Cerrar Sesión</Link>
+          <Link to="/perfil">Perfil</Link>
+          <Link to="/createGallery">Administrar Galerias</Link>
+          <Link to="/login">Cerrar Sesión</Link>
         </LinkColumn>
         <LinkColumn>
           <LinkTitle>Topic</LinkTitle>
-          <Link href="#">Page</Link>
-          <Link href="#">Page</Link>
-          <Link href="#">Page</Link>
+          <Link to="/page1">Page</Link>
+          <Link to="/page2">Page</Link>
+          <Link to="/page3">Page</Link>
         </LinkColumn>
         <LinkColumn>
           <LinkTitle>Topic</LinkTitle>
-          <Link href="#">Page</Link>
-          <Link href="#">Page</Link>
-          <Link href="#">Page</Link>
+          <Link to="/page4">Page</Link>
+          <Link to="/page5">Page</Link>
+          <Link to="/page6">Page</Link>
         </LinkColumn>
       </LinksContainer>
     </FooterContainer>
   );
 };
+
 
 export default Footer;

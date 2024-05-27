@@ -5,6 +5,7 @@ import PriceSelector from './PriceSelector';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
+import { FaPencilAlt } from 'react-icons/fa';
 
 const Container = styled.div`
   display: flex;
@@ -17,27 +18,42 @@ const TitleInput = styled.input`
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 10px;
-  border: none;
+  border: 2px solid transparent;
   outline: none;
   padding: 5px;
   text-align: center;
   color: ${props => props.value ? 'black' : '#ccc'};
+  background-color: ${props => props.value ? 'white' : '#f0f0f0'};
+  transition: border-color 0.3s, background-color 0.3s;
+  cursor: pointer;
+
   &::placeholder {
     color: #ccc;
+  }
+  &:focus {
+    border-color: #007BFF;
+    background-color: white;
   }
 `;
 
 const DescriptionInput = styled.input`
   font-size: 16px;
   margin-bottom: 20px;
-  border: none;
+  border: 2px solid transparent;
   outline: none;
   padding: 5px;
-  width: 80%;
   text-align: center;
   color: ${props => props.value ? 'black' : '#ccc'};
+  background-color: ${props => props.value ? 'white' : '#f0f0f0'};
+  transition: border-color 0.3s, background-color 0.3s;
+  cursor: pointer;
+
   &::placeholder {
     color: #ccc;
+  }
+  &:focus {
+    border-color: #007BFF;
+    background-color: white;
   }
 `;
 
@@ -75,6 +91,43 @@ const Button = styled.button`
   border-radius: 4px;
   background-color: black;
 `;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  position: relative;
+  width: 100%; // Asegúrate de que el contenedor ocupe todo el ancho disponible
+`;
+
+
+const EditIcon = styled(FaPencilAlt)`
+margin-bottom: 15px;  
+margin-left: 10px;
+  color: black;
+  cursor: pointer;
+  flex-shrink: 0; // Evita que el ícono se reduzca
+`;
+const PriceInput = styled.input`
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 2px solid transparent;
+  outline: none;
+  padding: 5px;
+  text-align: center;
+  color: ${props => props.value ? 'black' : '#ccc'};
+  background-color: ${props => props.value ? 'white' : '#f0f0f0'};
+  transition: border-color 0.3s, background-color 0.3s;
+  &::placeholder {
+    color: #ccc;
+  }
+  &:focus {
+    border-color: #007BFF;
+    background-color: white;
+  }
+`;
+
 const CreateGallery = () => {
   const [selectedWatermark, setSelectedWatermark] = useState(0);
   const [titulo, setTitulo] = useState('Nombre de la Galería');
@@ -144,41 +197,55 @@ const CreateGallery = () => {
 
   return (
     <Container>
-      <TitleInput
-        type="text"
-        value={titulo}
-        onChange={e => setTitulo(e.target.value)}
-        placeholder="Nombre de la Galería"
-        required
-      />
-      <DescriptionInput
-        value={descripcion}
-        onChange={e => setDescripcion(e.target.value)}
-        placeholder="Descripción de la galería"
-      />
+      <InputContainer>
+        <TitleInput
+          id="titulo"
+          type="text"
+          value={titulo}
+          onChange={e => setTitulo(e.target.value)}
+          placeholder="Nombre de la Galería"
+          required
+        />
+        <label htmlFor="titulo">
+          <EditIcon />
+        </label>
+      </InputContainer>
+      <InputContainer>
+        <DescriptionInput
+          id="descripcion"
+          type="text"
+          value={descripcion}
+          onChange={e => setDescripcion(e.target.value)}
+          placeholder="Descripción de la galería"
+        />
+        <label htmlFor="descripcion">
+          <EditIcon />
+        </label>
+      </InputContainer>
       <TextSeparator>Selecciona una marca de agua:</TextSeparator>
       <WatermarkSection>
         <WatermarkColumn>
           <WatermarkSelector
+          
             selectedWatermark={selectedWatermark}
             setSelectedWatermark={setSelectedWatermark}
             setWatermarkStyle={setWatermarkStyle}
           />
         </WatermarkColumn>
         <WatermarkColumn>
-          <PriceSelector
-            precioIndividual={precioIndividual}
-            setPrecioIndividual={setPrecioIndividual}
-            precioGaleria={precioGaleria}
-            setPrecioGaleria={setPrecioGaleria}
-          />
+        <PriceSelector
+    precioIndividual={precioIndividual}
+    setPrecioIndividual={setPrecioIndividual}
+    precioGaleria={precioGaleria}
+    setPrecioGaleria={setPrecioGaleria}
+  />
+
         </WatermarkColumn>
       </WatermarkSection>
       <Button onClick={handleSubmit}>Crear Galería</Button>
     </Container>
   );
 };
-
 export default CreateGallery;
 
 

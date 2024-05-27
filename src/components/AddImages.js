@@ -2,7 +2,35 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ImageUploader from './ImageUploader';
+import styled from 'styled-components';
 
+const Title = styled.h2`
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+const ButtonWrapper = styled.div`
+  text-align: center;
+  margin-top: 20px;
+`;
+
+
+const UploadButton = styled.button`
+  display: inline-block;
+  padding: 14px 24px; 
+  font-size: 18px; 
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border: none;
+  transition: background-color 0.3s ease; 
+
+  &:hover {
+    background-color: #222;
+  }
+`;
 const AddImages = () => {
   const { galleryId } = useParams();
   const [images, setImages] = useState([]);
@@ -35,7 +63,7 @@ const AddImages = () => {
         }
       });
       console.log('Imágenes subidas exitosamente:', response.data);
-      window.location.reload(); // Recargar la página después de subir los archivos
+      window.location.reload();
     } catch (error) {
       console.error('Error al subir las imágenes:', error.response ? error.response.data : error.message);
     }
@@ -43,14 +71,16 @@ const AddImages = () => {
 
   return (
     <div>
-      <h2>Añadir Imágenes a la Galería {galleryId}</h2>
+      <Title>Añadir Imágenes a la Galería {galleryId}</Title>
       <ImageUploader
         images={images}
         handleFilesAdded={handleFilesAdded}
         handleDrop={handleDrop}
         handleDragOver={handleDragOver}
       />
-      <button onClick={handleUpload}>Subir Imágenes</button>
+      <ButtonWrapper>
+        <UploadButton onClick={handleUpload}>Subir Imágenes</UploadButton>
+      </ButtonWrapper>
     </div>
   );
 };

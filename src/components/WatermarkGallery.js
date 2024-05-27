@@ -34,7 +34,7 @@ const WatermarkImage = styled.img`
 const OptionsMenu = styled.div`
   position: absolute;
   right: 40px;
-  bottom: 20px;
+  bottom: 10px;
   background: white;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -59,13 +59,13 @@ const rotateAnimation = keyframes`
 const OptionsButton = styled.button`
   position: absolute;
   right: 10px;
-  bottom: 10px;
+  bottom: 5px;
   background: url('/images/settings.svg') no-repeat center center;
   background-size: cover;
   border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -147,8 +147,8 @@ const WatermarkGallery = ({ photographerId }) => {
           <WatermarkName>{watermark.name}</WatermarkName>
           {showOptions === index && (
             <OptionsMenu>
-              <Option onClick={() => handleRename(watermark.fileName)}>Rename</Option>
-              <Option onClick={() => handleDelete(watermark.fileName)}>Delete</Option>
+              <Option onClick={() => handleRename(watermark.fileName)}>Renombrar</Option>
+              <Option onClick={() => handleDelete(watermark.fileName)}>Borrar</Option>
             </OptionsMenu>
           )}
         </ImageContainer>

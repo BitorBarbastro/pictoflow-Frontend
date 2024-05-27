@@ -84,12 +84,17 @@ const WatermarkSelector = ({ selectedWatermark, setSelectedWatermark, setWaterma
             'Content-Type': 'multipart/form-data'
           }
         });
+        console.log('Response data:', response.data);
         setGeneratedImageUrl(response.data.ImageUrl);
       } catch (error) {
         console.error('Error al subir la imagen y aplicar la marca de agua:', error);
       }
     }
   };
+
+  useEffect(() => {
+    console.log('Generated Image URL:', generatedImageUrl);
+  }, [generatedImageUrl]);
 
   return (
     <>
@@ -108,7 +113,7 @@ const WatermarkSelector = ({ selectedWatermark, setSelectedWatermark, setWaterma
           ))}
         </Select>
       </Label>
-     
+      
       <WatermarkPreviewContainer>
         {generatedImageUrl && (
           <PreviewImage

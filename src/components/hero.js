@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { jwtDecode } from 'jwt-decode';  
+import { jwtDecode } from 'jwt-decode';
+
 const HeroSection = styled.section`
   width: 80%;
   height: 60vh;
@@ -10,16 +11,15 @@ const HeroSection = styled.section`
 `;
 
 const HeroImage = styled.img`
- width: 100%;
- height: 100%;
- object-fit: cover;
- filter: brightness(0.7);
- opacity: ${({ isActive }) => (isActive ? 1 : 0)};
- transition: opacity 0.5s ease-in-out;
- position: absolute;
- top: 0;
- left: 0;
- box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+  transition: opacity 0.5s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
 const HeroContent = styled.div`
@@ -56,11 +56,8 @@ const Hero = () => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        console.log('Decoded Token:', decodedToken);
         if (decodedToken && decodedToken.nameid) {
-          console.log('User ID:', decodedToken.nameid);
         } else {
-          console.log('User ID not found in token');
         }
       } catch (error) {
         console.error('Error decoding token:', error);
@@ -68,6 +65,7 @@ const Hero = () => {
       }
     }
   }, [token]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
@@ -83,9 +81,10 @@ const Hero = () => {
           key={index}
           src={image.src}
           alt="Hero"
-          isActive={index === currentImage}
+          style={{ opacity: index === currentImage ? 1 : 0 }}
         />
       ))}
+
       <HeroContent>
         <HeroTitle>{images[currentImage].title}</HeroTitle>
         <HeroSubtitle>{images[currentImage].subtitle}</HeroSubtitle>
