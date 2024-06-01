@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import WatermarkGallery from './WatermarkGallery';
-import { jwtDecode } from 'jwt-decode'; // Importación correcta de jwt-decode
+import {jwtDecode} from 'jwt-decode'; // Corrección aquí
 
 const Container = styled.div`
   display: flex;
@@ -89,7 +89,7 @@ const WatermarkUpload = () => {
         }
       });
       alert('Archivo subido correctamente');
-      window.location.reload(); // Recargar la página después de subir el archivo
+      window.location.reload(); // Considerar actualizar el estado en lugar de recargar
     } catch (error) {
       console.error('Error al subir el archivo:', error);
       alert('Error al subir el archivo.');

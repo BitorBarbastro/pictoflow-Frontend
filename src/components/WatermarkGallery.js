@@ -112,27 +112,35 @@ const WatermarkGallery = ({ photographerId }) => {
     fetchWatermarks();
   }, [photographerId]);
 
-  const handleDelete = async (fileName) => {
+  const handleDelete = async (photoId) => {
     try {
-      await axios.delete(`http://localhost:5046/api/Upload/${photographerId}/deleteWatermarks/${fileName}`);
-      setWatermarks(watermarks.filter(w => w.fileName !== fileName));
+      await axios.delete(`http://localhost:5046/api/Gallery/deletePhoto/${photoId}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      });
+      setWatermarks(watermarks.filter(w => w.id !== photoId));
     } catch (error) {
-      console.error('Error deleting watermark:', error);
+      console.error('Error deleting photo:', error.response ? error.response.data : error.message);
     }
   };
-
-  const handleRename = async (fileName) => {
-    const newName = prompt("Enter new name for the watermark:", fileName);
-    if (newName && newName !== fileName) {
+  
+  const handleRename = async (photoId, currentName) => {
+    const newName = prompt("Enter new name for the photo:", currentName);
+    if (newName && newName !== currentName) {
       try {
-        await axios.put(`http://localhost:5046/api/Upload/${photographerId}/renameWatermark/${fileName}`, { newName });
-        // Actualizar el estado o refrescar la lista de marcas de agua
-        setWatermarks(watermarks.map(w => (w.fileName === fileName ? { ...w, name: newName } : w)));
+        await axios.put(`http://localhost:5046/api/Gallery/renamePhoto/${photoId}`, { newName }, {
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          }
+        });
+        setWatermarks(watermarks.map(w => (w.id === photoId ? { ...w, name: newName } : w)));
       } catch (error) {
-        console.error('Error renaming watermark:', error);
+        console.error('Error renaming photo:', error.response ? error.response.data : error.message);
       }
     }
   };
+  
 
   const toggleOptions = (index) => {
     setShowOptions(showOptions === index ? null : index);

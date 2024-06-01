@@ -36,10 +36,10 @@ const FooterContainer = styled(FooterBase)`
   align-items: center;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
-  transition: height 0.3s ease, opacity 0.3s ease; /* Añadido transition para la animación */
+  transition: height 0.3s ease, opacity 0.3s ease; 
   height: ${({ isExpanded }) => (isExpanded ? '200px' : '60px')};
   overflow: hidden;
-  position: fixed; /* Asegura que el footer esté en la parte inferior */
+  position: fixed; 
   bottom: 0;
 `;
 
@@ -97,21 +97,21 @@ const Footer = () => {
   const handleLogoClick = () => navigate('/hero');
 
   useEffect(() => {
-    const footerHeight = isExpanded ? 200 : 60; // Altura del footer expandido y contraído
-    const bodyHeight = body.scrollHeight + footerHeight - 60; // Ajusta el tamaño del body
+    const footerHeight = isExpanded ? 200 : 60; 
+    const bodyHeight = body.scrollHeight + footerHeight - 60; 
   
     if (isExpanded) {
       body.style.height = `${bodyHeight}px`;
       window.scrollTo({
         top: body.scrollHeight,
-        behavior: 'auto' // Cambia a 'auto' para un scroll instantáneo
+        behavior: 'auto'
       });
     } else {
-      body.style.height = `${body.scrollHeight - (200 - 60)}px`; // Restaura el tamaño original del body
+      body.style.height = `${body.scrollHeight - (200 - 60)}px`; 
       setTimeout(() => {
         window.scrollTo({
           top: body.scrollHeight - footerHeight + 60,
-          behavior: 'smooth' // Cambia a 'smooth' para una animación suave
+          behavior: 'smooth' 
         });
       }, 0);
     }
