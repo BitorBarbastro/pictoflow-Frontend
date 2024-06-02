@@ -102,7 +102,7 @@ const WatermarkGallery = ({ photographerId }) => {
   useEffect(() => {
     const fetchWatermarks = async () => {
       try {
-        const response = await axios.get(`http://localhost:5046/api/Upload/upload/${photographerId}/watermarks`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Upload/upload/${photographerId}/watermarks`);
         setWatermarks(response.data);
       } catch (error) {
         console.error('Error fetching watermarks:', error);
@@ -114,7 +114,7 @@ const WatermarkGallery = ({ photographerId }) => {
 
   const handleDelete = async (photoId) => {
     try {
-      await axios.delete(`http://localhost:5046/api/Gallery/deletePhoto/${photoId}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/Gallery/deletePhoto/${photoId}`, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -124,12 +124,12 @@ const WatermarkGallery = ({ photographerId }) => {
       console.error('Error deleting photo:', error.response ? error.response.data : error.message);
     }
   };
-  
+
   const handleRename = async (photoId, currentName) => {
     const newName = prompt("Enter new name for the photo:", currentName);
     if (newName && newName !== currentName) {
       try {
-        await axios.put(`http://localhost:5046/api/Gallery/renamePhoto/${photoId}`, { newName }, {
+        await axios.put(`${process.env.REACT_APP_API_URL}/api/Gallery/renamePhoto/${photoId}`, { newName }, {
           headers: {
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           }
@@ -140,7 +140,7 @@ const WatermarkGallery = ({ photographerId }) => {
       }
     }
   };
-  
+
 
   const toggleOptions = (index) => {
     setShowOptions(showOptions === index ? null : index);
@@ -150,7 +150,7 @@ const WatermarkGallery = ({ photographerId }) => {
     <GalleryContainer>
       {watermarks.map((watermark, index) => (
         <ImageContainer key={index}>
-          <WatermarkImage src={`http://localhost:5046/uploads/photographer_${photographerId}/watermarks/${watermark.fileName}`} alt={watermark.name} />
+          <WatermarkImage src={`${process.env.REACT_APP_API_URL}/uploads/photographer_${photographerId}/watermarks/${watermark.fileName}`} alt={watermark.name} />
           <OptionsButton onClick={() => toggleOptions(index)} />
           <WatermarkName>{watermark.name}</WatermarkName>
           {showOptions === index && (

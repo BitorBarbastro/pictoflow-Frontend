@@ -147,7 +147,7 @@ const GalleryPresentation = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await axios.get(`http://localhost:5046/api/Gallery/${galleryId}/watermarkedPhotos`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Gallery/${galleryId}/watermarkedPhotos`);
         setPhotos(response.data);
         if (response.data.length > 0) {
           setSelectedPhoto(response.data[0]);
@@ -171,7 +171,7 @@ const GalleryPresentation = () => {
 
     try {
       const updatedFavoriteStatus = !isFavorite;
-      await axios.put(`http://localhost:5046/api/Gallery/${galleryId}/photos/${selectedPhoto.id}/favorite`, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/Gallery/${galleryId}/photos/${selectedPhoto.id}/favorite`, {
         isFavorite: updatedFavoriteStatus,
         userId: userId
       });
@@ -189,7 +189,7 @@ const GalleryPresentation = () => {
     if (!selectedPhoto || !comment) return;
 
     try {
-      await axios.post(`http://localhost:5046/api/Gallery/${galleryId}/photos/${selectedPhoto.id}/comments`, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/Gallery/${galleryId}/photos/${selectedPhoto.id}/comments`, {
         comment: comment,
         userId: userId
       });
@@ -235,7 +235,7 @@ const GalleryPresentation = () => {
           <MainPhotoContainer>
             <MainPhotoImage
               ref={mainPhotoRef}
-              src={`http://localhost:5046${selectedPhoto.watermarkedImageUrl}`}
+              src={`${process.env.REACT_APP_API_URL}${selectedPhoto.watermarkedImageUrl}`}
               alt={selectedPhoto.title}
               onMouseMove={handleMouseMove}
               onMouseEnter={handleMouseEnter}
@@ -258,18 +258,18 @@ const GalleryPresentation = () => {
           </CommentContainer>
         </>
       )}
-<CenteredDiv>
+      <CenteredDiv>
         <ArrowButton onClick={() => scrollThumbnails('left')}>◀</ArrowButton>
         <ThumbnailsContainer ref={thumbnailsContainerRef} id="thumbnails-container">
           {photos.map(photo => (
             <ThumbnailContainer key={photo.id} onClick={() => handleThumbnailClick(photo)}>
-              <ThumbnailImage src={`http://localhost:5046${photo.watermarkedImageUrl}`} alt={photo.title} />
+              <ThumbnailImage src={`${process.env.REACT_APP_API_URL}${photo.watermarkedImageUrl}`} alt={photo.title} />
               <ThumbnailTitle>{photo.title}</ThumbnailTitle>
             </ThumbnailContainer>
           ))}
         </ThumbnailsContainer>
         <ArrowButton onClick={() => scrollThumbnails('right')}>▶</ArrowButton>
-        </CenteredDiv>
+      </CenteredDiv>
     </GalleryContainer>
   );
 };

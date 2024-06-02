@@ -109,24 +109,6 @@ margin-left: 10px;
   cursor: pointer;
   flex-shrink: 0; // Evita que el ícono se reduzca
 `;
-const PriceInput = styled.input`
-  font-size: 16px;
-  margin-bottom: 10px;
-  border: 2px solid transparent;
-  outline: none;
-  padding: 5px;
-  text-align: center;
-  color: ${props => props.value ? 'black' : '#ccc'};
-  background-color: ${props => props.value ? 'white' : '#f0f0f0'};
-  transition: border-color 0.3s, background-color 0.3s;
-  &::placeholder {
-    color: #ccc;
-  }
-  &:focus {
-    border-color: #007BFF;
-    background-color: white;
-  }
-`;
 
 const CreateGallery = () => {
   const [selectedWatermark, setSelectedWatermark] = useState(0);
@@ -169,7 +151,7 @@ const CreateGallery = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5046/api/upload/createGallery', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload/createGallery`,  {
         PhotographerId: userId, // Asegúrate de que las propiedades coincidan exactamente
         Name: titulo,
         Description: descripcion,

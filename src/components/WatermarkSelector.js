@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import WatermarkOptions from './WatermarkOptions';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const Label = styled.label`
   display: block;
@@ -38,15 +38,14 @@ const PreviewImage = styled.img`
 
 const WatermarkSelector = ({ selectedWatermark, setSelectedWatermark, setWatermarkStyle }) => {
   const [watermarks, setWatermarks] = useState([]);
-  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
+  const [generatedImageUrl] = useState(null);
   const token = sessionStorage.getItem('token');
   const photographerId = token ? jwtDecode(token).nameid : null;
 
   useEffect(() => {
     const fetchWatermarks = async () => {
       try {
-        const response = await axios.get(`http://localhost:5046/api/upload/watermarks/${photographerId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/upload/watermarks/${photographerId}`);
         const fetchedWatermarks = response.data;
 
         // Añadir la marca de agua predeterminada con ID 0
@@ -70,27 +69,7 @@ const WatermarkSelector = ({ selectedWatermark, setSelectedWatermark, setWaterma
     }
   }, [photographerId]);
 
-  const handleImageUpload = async () => {
-    if (imageFile && selectedWatermark) {
-      const formData = new FormData();
-      formData.append('imageFile', imageFile);
-      formData.append('watermarkId', selectedWatermark);
-      formData.append('photographerId', photographerId);
-      formData.append('imageName', imageFile.name);
 
-      try {
-        const response = await axios.post(`http://localhost:5046/api/upload/uploadImageWithWatermark`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        console.log('Response data:', response.data);
-        setGeneratedImageUrl(response.data.ImageUrl);
-      } catch (error) {
-        console.error('Error al subir la imagen y aplicar la marca de agua:', error);
-      }
-    }
-  };
 
   useEffect(() => {
     console.log('Generated Image URL:', generatedImageUrl);
@@ -113,7 +92,7 @@ const WatermarkSelector = ({ selectedWatermark, setSelectedWatermark, setWaterma
           ))}
         </Select>
       </Label>
-      
+
       <WatermarkPreviewContainer>
         {generatedImageUrl && (
           <PreviewImage

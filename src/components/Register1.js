@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
-import ToggleSlider from './ToggleSlider';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -128,7 +127,7 @@ const Register1 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5046/api/users/register1', { email });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register1`, { email });
       const { token } = response.data;
       console.log('Form submitted successfully');
       navigate(`/register2?token=${token}`);

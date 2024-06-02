@@ -110,7 +110,7 @@ const Register2 = () => {
       const searchParams = new URLSearchParams(window.location.search);
       const token = searchParams.get('token');
   
-      const response = await axios.post('http://localhost:5046/api/users/register2', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register2`,  {
         Password: password,
         ConfirmPassword: confirmPassword,
         Token: token,
@@ -131,7 +131,7 @@ const Register2 = () => {
         const searchParams = new URLSearchParams(window.location.search);
         const token = searchParams.get('token');
 
-        const response = await axios.get('http://localhost:5046/api/users/register2', {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/register2`, {
           params: { token },
         });
         setEmail(response.data.email);

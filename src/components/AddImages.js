@@ -56,7 +56,7 @@ const AddImages = () => {
     });
 
     try {
-      const response = await axios.post(`http://localhost:5046/api/Gallery/addImages/${galleryId}`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/Gallery/addImages/${galleryId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`

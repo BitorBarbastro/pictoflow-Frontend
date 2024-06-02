@@ -94,16 +94,7 @@ const Button = styled.button`
   }
 `;
 
-const FileInputLabel = styled.label`
-  display: block;
-  padding: 8px 16px;
-  background-color: black;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 10px auto 0;
-  width: fit-content;
-`;
+
 
 const WatermarkInputLabel = styled.label`
   display: block;
