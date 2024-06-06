@@ -107,16 +107,14 @@ const Register2 = () => {
     }
   
     try {
-      const searchParams = new URLSearchParams(window.location.search);
-      const token = searchParams.get('token');
+      const token = sessionStorage.getItem('emailToken');
   
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register2`,  {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register2`, {
         Password: password,
         ConfirmPassword: confirmPassword,
         Token: token,
       });
       if (response.status === 200) {
-        // Almacenar el token en sessionStorage
         sessionStorage.setItem('token', response.data.token);
         window.location.href = '/hero';
       }
@@ -126,22 +124,22 @@ const Register2 = () => {
   };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const searchParams = new URLSearchParams(window.location.search);
-        const token = searchParams.get('token');
-
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/register2`, {
-          params: { token },
-        });
-        setEmail(response.data.email);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
+    const token = sessionStorage.getItem('emailToken');
+    if (token) {
+      fetchUserData(token);
+    }
   }, []);
+
+  const fetchUserData = async (token) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/userinfo`, {
+        params: { token },
+      });
+      setEmail(response.data.email);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   return (
     <RegisterContainer>

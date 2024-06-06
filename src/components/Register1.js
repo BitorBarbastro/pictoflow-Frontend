@@ -124,17 +124,23 @@ const Register1 = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register1`, { email });
-      const { token } = response.data;
-      console.log('Form submitted successfully');
-      navigate(`/register2?token=${token}`);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    // Corrige la propiedad a 'Email' para que coincida con la expectativa del backend
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register1`, { Email: email });
+    const { token } = response.data;
+
+    // Guardar el token en sessionStorage
+    sessionStorage.setItem('emailToken', token);
+
+    console.log('Form submitted successfully');
+    // Navegar a la siguiente página con el token como parámetro no es necesario si ya está guardado en sessionStorage
+    navigate(`/register2`);
+  } catch (error) {
+    console.error('Error submitting form:', error);
+  }
+};
 
   return (
     <RegisterContainer>
