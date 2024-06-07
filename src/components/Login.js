@@ -81,6 +81,9 @@ const Button = styled.button`
   cursor: pointer;
   font-size: 16px;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const GoogleButton = styled(Button)`
@@ -117,10 +120,37 @@ const BoldLink = styled.a`
   color: #666;
   text-decoration: none;
 `;
+
+const Throbber = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePassword = (password) => {
+  // Ejemplo: La contraseña debe tener al menos 6 caracteres
+  return password.length >= 6;
+};
 const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -129,16 +159,38 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let valid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError('Por favor, introduce un correo electrónico válido.');
+      valid = false;
+    } else {
+      setEmailError('');
+    }
+
+    if (!validatePassword(password)) {
+      setPasswordError('La contraseña debe tener al menos 6 caracteres.');
+      valid = false;
+    } else {
+      setPasswordError('');
+    }
+
+    if (!valid) {
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/login`, { email, password });
       if (response.status === 200) {
-        console.log('Login successful');
         // Almacenar el token en sessionStorage
         sessionStorage.setItem('token', response.data.token);
         navigate('/hero');
       }
     } catch (error) {
       console.error('Error logging in:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -155,7 +207,14 @@ const Login = () => {
             type="email"
             placeholder="email@domain.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (!validateEmail(e.target.value)) {
+                setEmailError('Por favor, introduce un correo electrónico válido.');
+              } else {
+                setEmailError('');
+              }
+            }}
           />
         </InputGroup>
         <InputGroup>
@@ -163,7 +222,14 @@ const Login = () => {
             type={passwordShown ? 'text' : 'password'}
             placeholder="Contraseña"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (!validatePassword(e.target.value)) {
+                setPasswordError('La contraseña debe tener al menos 6 caracteres.');
+              } else {
+                setPasswordError('');
+              }
+            }}
           />
           <Icon onClick={togglePasswordVisibility}>
             <IconContext.Provider value={{ size: '20px' }}>
@@ -172,7 +238,9 @@ const Login = () => {
           </Icon>
         </InputGroup>
 
-        <Button type="submit">Iniciar Sesión</Button>
+        <Button type="submit" disabled={loading || emailError || passwordError}>
+          {loading ? <Throbber /> : 'Iniciar Sesión'}
+        </Button>
 
         <RegisterLink href="/register1">Puedes crear tu cuenta haciendo <strong>Click Aquí </strong> </RegisterLink>
         <GoogleButton type="button">

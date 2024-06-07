@@ -67,6 +67,20 @@ const Icon = styled.span`
   cursor: pointer;
 `;
 
+const Throbber = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto; // Centra el throbber horizontalmente
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
 const RegisterContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -78,6 +92,7 @@ const RegisterContainer = styled.div`
 
 const Register2 = () => {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
@@ -105,6 +120,8 @@ const Register2 = () => {
       alert('Las contraseñas no coinciden');
       return;
     }
+
+    setLoading(true); // Inicia el estado de carga
   
     try {
       const token = sessionStorage.getItem('emailToken');
@@ -120,6 +137,8 @@ const Register2 = () => {
       }
     } catch (error) {
       console.error('Error submitting form:', error.response.data);
+    } finally {
+      setLoading(false); // Finaliza el estado de carga
     }
   };
 
@@ -165,7 +184,9 @@ const Register2 = () => {
             </IconContext.Provider>
           </Icon>
         </InputGroup>
-        <Button type="submit">Crea Tú Cuenta</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? <Throbber /> : 'Crea Tú Cuenta'}
+        </Button>
       </Form>
     </RegisterContainer>
   );

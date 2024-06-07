@@ -119,28 +119,59 @@ const RegisterContainer = styled.div`
   padding: 20px;
 `;
 
+const Throbber = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto; // Centra el throbber horizontalmente
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
 
 const Register1 = () => {
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [networkError, setNetworkError] = useState(''); // Estado para manejar errores de red
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    // Corrige la propiedad a 'Email' para que coincida con la expectativa del backend
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register1`, { Email: email });
-    const { token } = response.data;
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
 
-    // Guardar el token en sessionStorage
-    sessionStorage.setItem('emailToken', token);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    console.log('Form submitted successfully');
-    // Navegar a la siguiente página con el token como parámetro no es necesario si ya está guardado en sessionStorage
-    navigate(`/register2`);
-  } catch (error) {
-    console.error('Error submitting form:', error);
-  }
-};
+    if (!validateEmail(email)) {
+      setEmailError('Correo electrónico no válido. Ejemplo: nombre@dominio.com');
+      return;
+    } else {
+      setEmailError('');
+    }
+
+    setLoading(true); // Inicia el estado de carga
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register1`, { Email: email });
+      const { token } = response.data;
+
+      sessionStorage.setItem('emailToken', token);
+
+      console.log('Form submitted successfully');
+      navigate(`/register2`);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setNetworkError('Error de red. Por favor, inténtalo de nuevo más tarde.'); // Establecer mensaje de error de red
+    } finally {
+      setLoading(false); // Finaliza el estado de carga
+    }
+  };
 
   return (
     <RegisterContainer>
@@ -154,8 +185,12 @@ const handleSubmit = async (e) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
         </InputGroup>
-        <Button type="submit">Crea Tú Cuenta</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? <Throbber /> : 'Crea Tú Cuenta'}
+        </Button>
+        {networkError && <p style={{ color: 'red' }}>{networkError}</p>} {/* Mostrar mensaje de error de red */}
         <LoginLink href="/">
           Si ya tienes una cuenta inicia sesión haciendo <strong>Click Aquí</strong>
         </LoginLink>
@@ -166,7 +201,7 @@ const handleSubmit = async (e) => {
         </GoogleButton>
         <TermsText>
           Al registrarte aceptas nuestros <BoldLink href="/terms">Términos de servicio</BoldLink> y la{' '}
-          <BoldLink href="/privacy">Política de privacidad</BoldLink>
+          <BoldLink href="/privacy">Pol��tica de privacidad</BoldLink>
         </TermsText>
       </Form>
     </RegisterContainer>
