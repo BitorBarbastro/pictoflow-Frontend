@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { useEffect } from 'react';
+
+
 
 const fadeIn = keyframes`
   from {
@@ -26,8 +27,10 @@ const FooterBase = ({ isExpanded, className, children, onMouseEnter, onMouseLeav
     {children}
   </footer>
 );
+
 const body = document.body;
 body.style.transition = 'height 0.3s ease'; // Añade una transición suave al tamaño del body
+
 const FooterContainer = styled(FooterBase)`
   background-color: #f8f9fa;
   padding: 20px 0;
@@ -99,13 +102,15 @@ const Footer = () => {
   useEffect(() => {
     const footerHeight = isExpanded ? 200 : 60; 
     const bodyHeight = body.scrollHeight + footerHeight - 60; 
-  
+
     if (isExpanded) {
       body.style.height = `${bodyHeight}px`;
-      window.scrollTo({
-        top: body.scrollHeight,
-        behavior: 'auto'
-      });
+      setTimeout(() => {
+        window.scrollTo({
+          top: body.scrollHeight + (footerHeight - 60),
+          behavior: 'smooth'
+        });
+      }, 300); // Aumenta el delay para asegurar que el scroll se realice después de la expansión
     } else {
       body.style.height = `${body.scrollHeight - (200 - 60)}px`; 
       setTimeout(() => {
@@ -113,7 +118,7 @@ const Footer = () => {
           top: body.scrollHeight - footerHeight + 60,
           behavior: 'smooth' 
         });
-      }, 0);
+      }, 300); // Aumenta el delay para asegurar que el scroll se realice después de la expansión
     }
   }, [isExpanded]);
 
@@ -128,7 +133,7 @@ const Footer = () => {
         <LinkColumn>
           <LinkTitle>Acceso Rápido</LinkTitle>
           <Link to="/perfil">Perfil</Link>
-          <Link to="/createGallery">Administrar Galerias</Link>
+          <Link to="/adminGalleries">Administrar Galerias</Link>
           <Link to="/login">Cerrar Sesión</Link>
         </LinkColumn>
         <LinkColumn>

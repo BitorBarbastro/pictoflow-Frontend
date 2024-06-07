@@ -84,7 +84,6 @@ const WatermarkSelector = ({ selectedWatermark, setSelectedWatermark, setWaterma
           value={selectedWatermark}
           onChange={e => setSelectedWatermark(e.target.value)}
         >
-          <option value="">Sin marca de agua</option>
           {watermarks.map(watermark => (
             <option key={watermark.id} value={watermark.id}>
               {watermark.name}

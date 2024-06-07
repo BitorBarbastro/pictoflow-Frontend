@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const Title = styled.h1`
@@ -55,13 +55,7 @@ height: 40px;
   
 `;
 
-const LoginLink = styled.a`
-  color: #000;
-  text-decoration: none;
-  margin-bottom: 20px;
-  cursor: pointer;
-  text-align: center;
-`;
+
 
 const GoogleText = styled.p`
   font-size: 14px;
@@ -94,10 +88,19 @@ const TermsText = styled.p`
   text-align: center;
 `;
 
+const BoldText = styled.span`
+  font-weight: bold;
+`;
 const BoldLink = styled.a`
   font-weight: bold;
   color: #666;
   text-decoration: none;
+`;
+
+const NoStyleLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+  text-align:center;
 `;
 const Button = styled.button`
   background-color: black;
@@ -116,7 +119,7 @@ const RegisterContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: 0px;
 `;
 
 const Throbber = styled.div`
@@ -134,12 +137,11 @@ const Throbber = styled.div`
   }
 `;
 
-const Register1 = () => {
+const Register1 = ({ navigate }) => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [networkError, setNetworkError] = useState(''); // Estado para manejar errores de red
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -164,7 +166,7 @@ const Register1 = () => {
       sessionStorage.setItem('emailToken', token);
 
       console.log('Form submitted successfully');
-      navigate(`/register2`);
+      navigate('/register1');
     } catch (error) {
       console.error('Error submitting form:', error);
       setNetworkError('Error de red. Por favor, inténtalo de nuevo más tarde.'); // Establecer mensaje de error de red
@@ -191,18 +193,19 @@ const Register1 = () => {
           {loading ? <Throbber /> : 'Crea Tú Cuenta'}
         </Button>
         {networkError && <p style={{ color: 'red' }}>{networkError}</p>} {/* Mostrar mensaje de error de red */}
-        <LoginLink href="/">
-          Si ya tienes una cuenta inicia sesión haciendo <strong>Click Aquí</strong>
-        </LoginLink>
+        <TermsText>
+          Al registrarte aceptas nuestros <BoldLink as={Link} to="/terms"> Términos de servicio</BoldLink> y la{' '}
+          <BoldLink as={Link} to="/privacy"> Pol&iacute;tica de privacidad</BoldLink>
+        </TermsText>
+
+        <NoStyleLink to="/login">
+          Si ya tienes una cuenta inicia sesión haciendo <BoldText>Click Aquí</BoldText>
+        </NoStyleLink>
         <GoogleText>O regístrate con Google</GoogleText>
         <GoogleButton type="button">
           <FcGoogle size={20} />
           Continuar con Google
         </GoogleButton>
-        <TermsText>
-          Al registrarte aceptas nuestros <BoldLink href="/terms">Términos de servicio</BoldLink> y la{' '}
-          <BoldLink href="/privacy">Pol��tica de privacidad</BoldLink>
-        </TermsText>
       </Form>
     </RegisterContainer>
   );

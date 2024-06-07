@@ -9,12 +9,11 @@ import Hero from './components/hero';
 import CreateGallery from './components/CreateGallery';
 import AddImages from './components/AddImages';
 import GalleryPresentation from './components/GalleryPresentation';
-import PrivateRoute from './components/PrivateRoute';
-import PublicRoute from './components/PublicRoute';
 import UserProfile from './components/UserProfile';
 import WatermarkUpload from './components/WatermarkUpload';
+import AdminGalleries from './components/AdminGalleries'; // Importa el nuevo componente
 import styled from 'styled-components';
-import './App.css';
+import './App.css'; // Importa App.css
 
 const AppContainer = styled.div`
   display: flex;
@@ -36,15 +35,16 @@ function App() {
       <Content>
         <Routes>
           <Route exact path="/" element={<Hero />} />
-          <Route path="/login" element={<PublicRoute element={Login} />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register1" element={<Register1 />} />
           <Route path="/register2" element={<Register2 />} />
           <Route path="/createGallery" element={<CreateGallery />} />
           <Route path="/hero" element={<Hero />} />
-          <Route path="/perfil" element={<PrivateRoute element={UserProfile} />} />
-          <Route path="/watermarks" element={<PrivateRoute element={WatermarkUpload} />} />
-          <Route path="/addImages/:galleryId" element={<PrivateRoute element={AddImages} />} />
-          <Route path="/presentacion/:galleryId" element={<PrivateRoute element={GalleryPresentation} />} /> 
+          <Route path="/perfil" element={<UserProfile />} />
+          <Route path="/watermarks" element={<WatermarkUpload />} />
+          <Route path="/addImages/:galleryId" element={<AddImages />} />
+          <Route path="/presentacion/:galleryId" element={<GalleryPresentation />} /> 
+          <Route path="/adminGalleries" element={<AdminGalleries />} /> {/* Nueva ruta sin PrivateRoute */}
         </Routes>
       </Content>
       {!excludedPaths.includes(location.pathname) && <Footer />}
