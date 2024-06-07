@@ -65,6 +65,10 @@ const CurrencySymbol = styled.span`
 `;
 
 const PriceSelector = ({ precioIndividual, setPrecioIndividual, precioGaleria, setPrecioGaleria }) => {
+  // Agregar console.log para depurar los valores recibidos
+  console.log('Precio Individual:', precioIndividual);
+  console.log('Precio Galería:', precioGaleria);
+
   return (
     <PriceContainer>
       <Label>

@@ -42,7 +42,7 @@ const HeroSubtitle = styled.p`
 `;
 
 const images = [
-  { src: '/images/sandia.png', title: 'PicToFlow', subtitle: 'Empieza a Crear Galerías hoy mismo Crea y Comparte en Minutos' },
+  { src: '/images/sandia.png', title: 'PictoFlow', subtitle: 'Empieza a Crear Galerías hoy mismo Crea y Comparte en Minutos' },
   { src: '/images/gema.jpg', title: 'Revoluciona la Forma de Hacer Clientes', subtitle: 'Contacta, Muestra y Vende' },
   { src: '/images/gotas.jpg', title: 'Comparte Tu Trabajo', subtitle: 'De forma segura y rápida' },
   { src: '/images/cuack.jpg', title: 'Expande Tus Límites', subtitle: 'Tú Eliges Hasta Dónde Llegar' },

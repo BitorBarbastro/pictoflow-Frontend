@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Asegúrate de importar useNavigate
 
 
 const Title = styled.h1`
@@ -137,7 +137,8 @@ const Throbber = styled.div`
   }
 `;
 
-const Register1 = ({ navigate }) => {
+const Register1 = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [networkError, setNetworkError] = useState(''); // Estado para manejar errores de red
@@ -166,7 +167,7 @@ const Register1 = ({ navigate }) => {
       sessionStorage.setItem('emailToken', token);
 
       console.log('Form submitted successfully');
-      navigate('/register1');
+      navigate('/register2');
     } catch (error) {
       console.error('Error submitting form:', error);
       setNetworkError('Error de red. Por favor, inténtalo de nuevo más tarde.'); // Establecer mensaje de error de red

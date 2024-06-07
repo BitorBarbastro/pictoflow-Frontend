@@ -151,7 +151,7 @@ const Register2 = () => {
 
   const fetchUserData = async (token) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/userinfo`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/register2`, {
         params: { token },
       });
       setEmail(response.data.email);

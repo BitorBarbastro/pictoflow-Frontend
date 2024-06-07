@@ -5,15 +5,16 @@ import Register1 from './components/Register1';
 import Register2 from './components/Register2';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import Hero from './components/hero';
+import Hero from './components/Hero';
 import CreateGallery from './components/CreateGallery';
-import AddImages from './components/AddImages';
 import GalleryPresentation from './components/GalleryPresentation';
 import UserProfile from './components/UserProfile';
 import WatermarkUpload from './components/WatermarkUpload';
-import AdminGalleries from './components/AdminGalleries'; // Importa el nuevo componente
+import AdminGalleries from './components/AdminGalleries';
+import EditGallery from './components/EditGallery'; // Importa el nuevo componente
 import styled from 'styled-components';
-import './App.css'; // Importa App.css
+import './App.css'; 
+import ImageUploader from './components/ImageUploader';
 
 const AppContainer = styled.div`
   display: flex;
@@ -42,9 +43,10 @@ function App() {
           <Route path="/hero" element={<Hero />} />
           <Route path="/perfil" element={<UserProfile />} />
           <Route path="/watermarks" element={<WatermarkUpload />} />
-          <Route path="/addImages/:galleryId" element={<AddImages />} />
+          <Route path="/addImages/:galleryId" element={<ImageUploader />} />
           <Route path="/presentacion/:galleryId" element={<GalleryPresentation />} /> 
-          <Route path="/adminGalleries" element={<AdminGalleries />} /> {/* Nueva ruta sin PrivateRoute */}
+          <Route path="/adminGalleries" element={<AdminGalleries />} />
+          <Route path="/editGallery/:galleryId" element={<EditGallery />} /> {/* Nueva ruta para EditGallery */}
         </Routes>
       </Content>
       {!excludedPaths.includes(location.pathname) && <Footer />}

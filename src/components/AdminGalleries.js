@@ -15,19 +15,19 @@ const GalleryList = styled.div`
 `;
 
 const GalleryItem = styled.div`
-  position: relative; /* Añadir posición relativa para permitir la posición absoluta del botón */
+  position: relative; 
   display: flex;
   flex-direction: column; 
   align-items: center;
   height: 250px;
   margin: 10px; 
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cambiar la sombra para que sea externa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   width: calc(50% - 20px); 
   background-color: #fff; 
-  padding: 16px; /* Aumentar el padding para más espacio interno */
+  padding: 16px; 
   box-sizing: border-box; 
-  border: 1px solid #ddd; /* Añadir un borde */
+  border: 1px solid #ddd; 
 `;
 const rotateAnimation = keyframes`
   0% {
@@ -66,11 +66,11 @@ const GalleryImage = styled.img`
   height: 60%;
   object-fit: cover;
   border-radius: 8px; 
-  transition: transform 0.1s ease, box-shadow 0.3s ease; /* Añadir transición para suavizar el efecto */
+  transition: transform, box-shadow ; 
 
   &:hover {
-    transform: ${({ mouseX, mouseY }) => `scale(1.05) rotateX(${mouseY}deg) rotateY(${mouseX}deg)`}; /* Escalar e inclinar la imagen */
-    box-shadow: ${({ mouseX, mouseY }) => `${-mouseX}px ${-mouseY}px 20px rgba(0, 0, 0, 0.3)`}; /* Sombra dinámica invertida */
+    transform: ${({ mouseX, mouseY }) => `scale(1.05) rotateX(${mouseY}deg) rotateY(${mouseX}deg)`}; 
+    box-shadow: ${({ mouseX, mouseY }) => `${-mouseX}px ${-mouseY}px 20px rgba(0, 0, 0, 0.3)`}; 
   }
 `;
 
@@ -80,19 +80,19 @@ const GalleryInfo = styled.div`
 `;
 
 const GalleryTitle = styled.h3`
-  font-size: 1.2em; /* Aumentar el tamaño de la fuente */
-  margin-bottom: 8px; /* Añadir margen inferior */
-  text-align: center; /* Centrar el texto */
+  font-size: 1.2em;
+  margin-bottom: 8px; 
+  text-align: center; 
 `;
 
 const EditLink = styled(Link)`
   color: #007bff;
   text-decoration: none;
-  margin-top: 8px; /* Aumentar el margen superior */
-  text-align: center; /* Centrar el enlace */
+  margin-top: 8px; 
+  text-align: center; 
   
   &:hover {
-    text-decoration: underline; /* Subrayar el enlace al pasar el ratón */
+    text-decoration: underline; 
   }
 `;
 const AdminGalleries = () => {

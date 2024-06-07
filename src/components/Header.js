@@ -104,7 +104,7 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <Logo onClick={handleLogoClick}>PicToFlow</Logo>
+      <Logo onClick={handleLogoClick}>PictoFlow</Logo>
       <ButtonContainer>
         {checkLoginStatus() ? (
           <>

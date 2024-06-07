@@ -4,7 +4,7 @@ import WatermarkSelector from './WatermarkSelector';
 import PriceSelector from './PriceSelector';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { FaPencilAlt } from 'react-icons/fa';
 
 const Container = styled.div`
@@ -168,7 +168,7 @@ const CreateGallery = () => {
       });
       console.log('Galería creada exitosamente:', response.data);
       if (response.data && response.data.id) {
-        navigate(`/addImages/${response.data.id}`);
+        navigate(`/editGallery/${response.data.id}`);
       } else {
         console.error('Error al crear la galería: Respuesta inesperada del servidor', response.data);
       }
@@ -216,11 +216,11 @@ const CreateGallery = () => {
         </WatermarkColumn>
         <WatermarkColumn>
         <PriceSelector
-    precioIndividual={precioIndividual}
-    setPrecioIndividual={setPrecioIndividual}
-    precioGaleria={precioGaleria}
-    setPrecioGaleria={setPrecioGaleria}
-  />
+            precioIndividual={precioIndividual}
+            setPrecioIndividual={setPrecioIndividual}
+            precioGaleria={precioGaleria}
+            setPrecioGaleria={setPrecioGaleria}
+          />
 
         </WatermarkColumn>
       </WatermarkSection>

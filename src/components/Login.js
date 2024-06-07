@@ -140,16 +140,12 @@ const validateEmail = (email) => {
   return emailRegex.test(email);
 };
 
-const validatePassword = (password) => {
-  // Ejemplo: La contraseña debe tener al menos 6 caracteres
-  return password.length >= 6;
-};
+
 const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -168,12 +164,6 @@ const Login = () => {
       setEmailError('');
     }
 
-    if (!validatePassword(password)) {
-      setPasswordError('La contraseña debe tener al menos 6 caracteres.');
-      valid = false;
-    } else {
-      setPasswordError('');
-    }
 
     if (!valid) {
       return;
@@ -224,11 +214,6 @@ const Login = () => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              if (!validatePassword(e.target.value)) {
-                setPasswordError('La contraseña debe tener al menos 6 caracteres.');
-              } else {
-                setPasswordError('');
-              }
             }}
           />
           <Icon onClick={togglePasswordVisibility}>
@@ -238,7 +223,7 @@ const Login = () => {
           </Icon>
         </InputGroup>
 
-        <Button type="submit" disabled={loading || emailError || passwordError}>
+        <Button type="submit" disabled={loading || emailError }>
           {loading ? <Throbber /> : 'Iniciar Sesión'}
         </Button>
 

@@ -128,7 +128,7 @@ const Footer = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Logo onClick={handleLogoClick}>PicToFlow</Logo>
+      <Logo onClick={handleLogoClick}>PictoFlow</Logo>
       <LinksContainer isExpanded={isExpanded}>
         <LinkColumn>
           <LinkTitle>Acceso Rápido</LinkTitle>
