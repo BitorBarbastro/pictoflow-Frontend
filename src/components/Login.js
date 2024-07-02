@@ -4,8 +4,7 @@ import { IconContext } from 'react-icons';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -14,6 +13,7 @@ const LoginContainer = styled.div`
   justify-content: center;
   min-height: 100vh;
   padding: 0px;
+  position: relative; /* Añadido para posicionar el logo */
 `;
 
 const Title = styled.h1`
@@ -135,17 +135,33 @@ const Throbber = styled.div`
   }
 `;
 
+const Logo = styled(Link)`
+  font-size: 24px;
+  font-weight: 400;  
+  position: absolute; /* Posiciona el logo de forma absoluta */
+  top: 20px; /* Ajusta la distancia desde la parte superior */
+  left: 20px; /* Ajusta la distancia desde la parte izquierda */
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+`;
+
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
+const validatePassword = (password) => {
+  // Ejemplo: La contraseña debe tener al menos 6 caracteres
+  return password.length >= 6;
+};
 
 const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -164,6 +180,12 @@ const Login = () => {
       setEmailError('');
     }
 
+    if (!validatePassword(password)) {
+      setPasswordError('La contraseña debe tener al menos 6 caracteres.');
+      valid = false;
+    } else {
+      setPasswordError('');
+    }
 
     if (!valid) {
       return;
@@ -184,11 +206,9 @@ const Login = () => {
     }
   };
 
-
-
-
   return (
     <LoginContainer>
+      <Logo to="/hero">PicToFlow</Logo>
       <Title>Inicia Sesión</Title>
       <Subtitle>Accede con tu correo electrónico</Subtitle>
       <Form onSubmit={handleSubmit}>
@@ -214,6 +234,11 @@ const Login = () => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
+              if (!validatePassword(e.target.value)) {
+                setPasswordError('La contraseña debe tener al menos 6 caracteres.');
+              } else {
+                setPasswordError('');
+              }
             }}
           />
           <Icon onClick={togglePasswordVisibility}>
@@ -223,7 +248,7 @@ const Login = () => {
           </Icon>
         </InputGroup>
 
-        <Button type="submit" disabled={loading || emailError }>
+        <Button type="submit" disabled={loading || emailError || passwordError}>
           {loading ? <Throbber /> : 'Iniciar Sesión'}
         </Button>
 

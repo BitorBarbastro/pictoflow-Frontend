@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login';
 import Register1 from './components/Register1';
 import Register2 from './components/Register2';
@@ -39,14 +40,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register1" element={<Register1 />} />
           <Route path="/register2" element={<Register2 />} />
-          <Route path="/createGallery" element={<CreateGallery />} />
           <Route path="/hero" element={<Hero />} />
-          <Route path="/perfil" element={<UserProfile />} />
-          <Route path="/watermarks" element={<WatermarkUpload />} />
-          <Route path="/addImages/:galleryId" element={<ImageUploader />} />
-          <Route path="/presentacion/:galleryId" element={<GalleryPresentation />} /> 
-          <Route path="/adminGalleries" element={<AdminGalleries />} />
-          <Route path="/editGallery/:galleryId" element={<EditGallery />} /> {/* Nueva ruta para EditGallery */}
+          <Route path="/createGallery" element={<PrivateRoute element={CreateGallery} />} />
+          <Route path="/perfil" element={<PrivateRoute element={UserProfile} />} />
+          <Route path="/watermarks" element={<PrivateRoute element={WatermarkUpload} />} />
+          <Route path="/addImages/:galleryId" element={<PrivateRoute element={ImageUploader} />} />
+          <Route path="/presentation/:galleryId" element={<PrivateRoute element={GalleryPresentation} />} />
+          <Route path="/adminGalleries" element={<PrivateRoute element={AdminGalleries} />} />
+          <Route path="/editGallery/:galleryId" element={<PrivateRoute element={EditGallery} />} />
         </Routes>
       </Content>
       {!excludedPaths.includes(location.pathname) && <Footer />}

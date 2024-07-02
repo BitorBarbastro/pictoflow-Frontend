@@ -1,10 +1,8 @@
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Asegúrate de importar useNavigate
-
 
 const Title = styled.h1`
   font-family: 'Inter', sans-serif;
@@ -47,15 +45,12 @@ const InputGroup = styled.div`
 `;
 
 const Input = styled.input`
-width: calc(100% - 20px);
-height: 40px;
+  width: calc(100% - 20px);
+  height: 40px;
   padding: 10px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  
 `;
-
-
 
 const GoogleText = styled.p`
   font-size: 14px;
@@ -91,6 +86,7 @@ const TermsText = styled.p`
 const BoldText = styled.span`
   font-weight: bold;
 `;
+
 const BoldLink = styled.a`
   font-weight: bold;
   color: #666;
@@ -100,8 +96,9 @@ const BoldLink = styled.a`
 const NoStyleLink = styled(Link)`
   color: inherit;
   text-decoration: none;
-  text-align:center;
+  text-align: center;
 `;
+
 const Button = styled.button`
   background-color: black;
   color: white;
@@ -120,6 +117,7 @@ const RegisterContainer = styled.div`
   justify-content: center;
   min-height: 100vh;
   padding: 0px;
+  position: relative; /* Añadido para posicionar el logo */
 `;
 
 const Throbber = styled.div`
@@ -135,6 +133,17 @@ const Throbber = styled.div`
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+`;
+
+const Logo = styled(Link)`
+  font-size: 24px;
+  font-weight: 400;  
+  position: absolute; /* Posiciona el logo de forma absoluta */
+  top: 20px; /* Ajusta la distancia desde la parte superior */
+  left: 20px; /* Ajusta la distancia desde la parte izquierda */
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 `;
 
 const Register1 = () => {
@@ -170,7 +179,11 @@ const Register1 = () => {
       navigate('/register2');
     } catch (error) {
       console.error('Error submitting form:', error);
-      setNetworkError('Error de red. Por favor, inténtalo de nuevo más tarde.'); // Establecer mensaje de error de red
+      if (error.response && error.response.data && error.response.data.message) {
+        setNetworkError(error.response.data.message); // Establecer mensaje de error recibido del servidor
+      } else {
+        setNetworkError('Error de red. Por favor, inténtalo de nuevo más tarde.'); // Establecer mensaje de error de red genérico
+      }
     } finally {
       setLoading(false); // Finaliza el estado de carga
     }
@@ -178,6 +191,7 @@ const Register1 = () => {
 
   return (
     <RegisterContainer>
+      <Logo to="/hero">PicToFlow</Logo>
       <Title>Crea Tú Cuenta</Title>
       <Subtitle>Regístrate con tú correo electrónico</Subtitle>
       <Form onSubmit={handleSubmit}>

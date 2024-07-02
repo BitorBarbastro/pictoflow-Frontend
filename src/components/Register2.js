@@ -1,9 +1,9 @@
-/* import React, { useState } from 'react'; */
 import styled from 'styled-components';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // Asegúrate de importar Link
 
 const Title = styled.h1`
   font-family: 'Inter', sans-serif;
@@ -38,12 +38,11 @@ const InputGroup = styled.div`
 `;
 
 const Input = styled.input`
-width: calc(100% - 20px);
-height: 40px;
+  width: calc(100% - 20px);
+  height: 40px;
   padding: 10px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  
 `;
 
 const Button = styled.button`
@@ -55,8 +54,7 @@ const Button = styled.button`
   cursor: pointer;
   font-size: 16px;
   margin-bottom: 20px;
-    padding: 10px 10px 10px 10px;
-
+  padding: 10px 10px 10px 10px;
 `;
 
 const Icon = styled.span`
@@ -81,6 +79,7 @@ const Throbber = styled.div`
     100% { transform: rotate(360deg); }
   }
 `;
+
 const RegisterContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -88,6 +87,18 @@ const RegisterContainer = styled.div`
   justify-content: center;
   min-height: 100vh;
   padding: 0px;
+  position: relative; /* Añadido para posicionar el logo */
+`;
+
+const Logo = styled(Link)`
+  font-size: 24px;
+  font-weight: 400;  
+  position: absolute; /* Posiciona el logo de forma absoluta */
+  top: 20px; /* Ajusta la distancia desde la parte superior */
+  left: 20px; /* Ajusta la distancia desde la parte izquierda */
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 `;
 
 const Register2 = () => {
@@ -162,6 +173,7 @@ const Register2 = () => {
 
   return (
     <RegisterContainer>
+      <Logo to="/hero">PicToFlow</Logo>
       <Title>Termina de Configurar Tú Cuenta</Title>
       <Subtitle>Completa el Registro</Subtitle>
       <Form onSubmit={handleSubmit}>
